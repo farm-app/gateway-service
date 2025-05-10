@@ -1,0 +1,35 @@
+server:
+  port: 9100
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761}/eureka
+    enabled: true
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+
+spring:
+  profiles:
+    active: default
+  application:
+    name: gateway
+  config:
+    import: configserver:http://localhost:8888
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+          predicates:
+            - name: Path
+              args:
+                pattern: "'/api/' + serviceId + '/**'"
+          filters:
+            - name: RewritePath
+              args:
+                regexp: "'(?<anything>.*)'"
+                replacement: "'${anything}'"
+    config:
+      enabled: true

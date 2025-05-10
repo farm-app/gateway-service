@@ -26,6 +26,11 @@ java {
     }
 }
 
+springBoot {
+    mainClass = 'ru.rtln.gatewayservice.GatewayServiceApplication'
+}
+
+
 repositories {
     mavenCentral()
 }
